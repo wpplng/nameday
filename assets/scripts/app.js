@@ -1,6 +1,6 @@
 /**
  * Name day
- */
+ */ 
 
 // empty strings
 const emptyStrings = (where) => {
@@ -9,23 +9,20 @@ const emptyStrings = (where) => {
 
 // error message
 const renderErrorMessage = (msg) => {
-    document.querySelector('#error-msg').innerHTML = 
-        `<div class="alert alert-warning" role="alert">${msg}</div>`;
+    document.querySelector('#output').innerHTML = `<div class="alert alert-warning" role="alert">${msg}</div>`;
 };
 
 // name
 const renderCurrentNameday = (data) => {
     data.results.map(result => { 
-        document.querySelector('#output').innerHTML += `<p>${result.name} has nameday on ${result.day}/${result.month}.</p>`;
+        document.querySelector('#output').innerHTML = `<p>${result.name} has nameday ${result.day}/${result.month}.</p>`;
     })
-    
-    emptyStrings('#name-query');
 };
 
 // date
-const renderNamesOnCurrentNameday = (data) => {
-    data.data.map(result => {
-        document.querySelector('#output').innerHTML = `<p> On ${result.dates.day}/${result.dates.month} ${result.namedays.se} has nameday.</p>`;
+const renderNamesOnCurrentNameday = (date) => {
+    date.data.map(result => {
+        document.querySelector('#output').innerHTML = `<p>${result.namedays.se} has nameday ${result.dates.day}/${result.dates.month}.</p>`;
     })
 
     emptyStrings('#month-select');
@@ -34,13 +31,9 @@ const renderNamesOnCurrentNameday = (data) => {
 
 // click-handler
 document.querySelector('#search-form').addEventListener('click', e => {
-    e.preventDefault(); // ev inte ha med det om click
+    e.preventDefault();
 
     if (e.target.id === 'name-button') {
-        emptyStrings('#output');
-
-        document.querySelector('#error-msg').innerHTML = "";
-
         const name = document.querySelector('#name-query').value;
 
         getNamedayByName(name).then(data => {
@@ -51,21 +44,19 @@ document.querySelector('#search-form').addEventListener('click', e => {
             }
         }) 
         .catch(err => {
-            renderErrorMessage(err); 
+            renderErrorMessage('Something went wrong, please try again!', err); 
         });
     } else if (e.target.id === 'date-button') {
-        emptyStrings('#output');
-
-        document.querySelector('#error-msg').innerHTML = "";
-
         const month = document.querySelector('#month-select').value;
         const day = document.querySelector('#day-select').value;
 
-        getNamedayByDate(month, day).then(data => {
-            renderNamesOnCurrentNameday(data);
+        getNamedayByDate(month, day).then(date => {
+            renderNamesOnCurrentNameday(date);
         })
         .catch(err => {
             renderErrorMessage('Something went wrong, please try again!', err); 
         });
     }
+    emptyStrings('#name-query');
+    emptyStrings('#output');
 });
