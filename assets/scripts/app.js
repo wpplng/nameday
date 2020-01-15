@@ -2,36 +2,37 @@
  * Name day
  */ 
 
+const outputEl = document.querySelector('#output');
+
 // empty strings
 const emptyStrings = (where) => {
     document.querySelector(where).value= ""; 
-}
+};
 
 // error message
 const renderErrorMessage = (msg) => {
-    document.querySelector('#output').innerHTML = `<div class="alert alert-warning" role="alert">${msg}</div>`;
+    outputEl.innerHTML = `<div class="alert alert-warning" role="alert">${msg}</div>`;
 };
 
 // name
 const renderCurrentNameday = (data) => {
     data.results.map(result => { 
-        document.querySelector('#output').innerHTML = `<p>${result.name} has nameday ${result.day}/${result.month}.</p>`;
+        outputEl.innerHTML = `<p>${result.name} has nameday ${result.day}/${result.month}.</p>`;
     })
 };
 
 // date
 const renderNamesOnCurrentNameday = (date) => {
     date.data.map(result => {
-        document.querySelector('#output').innerHTML = `<p>${result.namedays.se} has nameday ${result.dates.day}/${result.dates.month}.</p>`;
+        outputEl.innerHTML = `<p>${result.namedays.se} has nameday ${result.dates.day}/${result.dates.month}.</p>`;
     })
-
-    emptyStrings('#month-select');
-    emptyStrings('#day-select');
 };
 
 // click-handler
 document.querySelector('#search-form').addEventListener('click', e => {
-    e.preventDefault();
+    if (e.target.tagName !== "BUTTON") {
+        return;
+    }
 
     if (e.target.id === 'name-button') {
         const name = document.querySelector('#name-query').value;
@@ -58,5 +59,7 @@ document.querySelector('#search-form').addEventListener('click', e => {
         });
     }
     emptyStrings('#name-query');
+    emptyStrings('#month-select');
+    emptyStrings('#day-select');
     emptyStrings('#output');
 });
