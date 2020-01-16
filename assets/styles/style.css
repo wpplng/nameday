@@ -23,7 +23,7 @@ h2 {
 }
 
 #output {
-	background-color: #fff;
+	background-color:#fff;
 	color: #333;
 	border-radius: 0.25rem;
 }
@@ -31,4 +31,5 @@ h2 {
 #output p {
 	padding: 2rem;
 	text-align: center;
+	font-size: 1.5rem;
 }
